@@ -82,8 +82,7 @@ class CoinCatcher extends Phaser.Scene {
         this.input.on('pointermove', (pointer) => {
             if (!this.gameOver) {
                 const newX = Phaser.Math.Clamp(pointer.x, 50, 750);
-                this.cup.x = newX;
-                this.cup.body.position.x = newX + this.cup.body.offset.x;
+                this.cup.setX(newX); // Update the cup position manually
                 this.updateFillLevel();
             }
         });
@@ -109,7 +108,7 @@ class CoinCatcher extends Phaser.Scene {
     }
 
     update() {
-        // Continue spawning coins if the game is not over
+        // Ensure the spawn continues if not already happening
         if (!this.gameOver && !this.currentSpawnTimer) {
             this.startCoinSpawning();
         }
