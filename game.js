@@ -150,8 +150,9 @@ class CoinCatcher extends Phaser.Scene {
         if (!coin.active) return; // Prevent multiple detections*/
 
         // Disable coin physics and hide it
-        coin.body.setVelocity(0, 0);
-        coin.disableBody(true, true);
+       // coin.body.setVelocity(0, 0);
+       // coin.disableBody(true, true);
+        coin.body.checkCollision.none = true;
 
         // Animate the coin moving into the cup
         this.tweens.add({
