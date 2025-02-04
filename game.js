@@ -9,9 +9,9 @@ class CoinCatcher extends Phaser.Scene {
         this.currentSpawnTimer = null;
     }
     preload() {
-        this.load.image('coin', 'https://play.rosebud.ai/assets/ronlogo.png?E10A');
-        this.load.audio('coinSound', 'https://play.rosebud.ai/assets/coin-257878.mp3?gWjc');
-        this.load.audio('bubbleSound', 'https://play.rosebud.ai/assets/bubble.mp3?ZiEE');
+        this.load.image('coin', 'ronlogo.png');
+        this.load.audio('coinSound', 'coin.mp3');
+        this.load.audio('bubbleSound', 'bubble.mp3');
     }
     create() {
         // Background
