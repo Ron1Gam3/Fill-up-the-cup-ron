@@ -246,21 +246,34 @@ class CoinCatcher extends Phaser.Scene {
 coinHitFloor(floor, coin) {
     console.log("coinHitFloor triggered! Coin count:", this.coins.countActive(true), "Max coins:", this.maxCoins);
 
+    // Debugging: Check if game is over already
+    console.log("Before: gameOver =", this.gameOver);
+
     if (!this.gameOver && this.coins.countActive(true) < this.maxCoins) {
-        console.log("Destroying coin:", coin);
-        coin.destroy();  // Remove coin
-        this.coins.remove(coin);  // Ensure it's removed from the physics group
-        this.coinContainer.remove(coin); // Ensure it's removed from the container
-    } else {
-        console.log("Game Over condition met.");
+        console.log("Setting gameOver to true now!");
         this.gameOver = true;
+
+        coin.destroy();
+        if (this.currentSpawnTimer) {
+            console.log("Removing spawn timer.");
+            this.currentSpawnTimer.remove();
+        }
+
         this.time.removeAllEvents();
+        console.log("All events removed.");
+
         this.coins.clear(true, true);
+        console.log("All coins cleared.");
+
         this.add.text(400, 300, 'Game Over!', {
             fontSize: '64px',
             fill: '#FF0000'
         }).setOrigin(0.5);
+    } else {
+        console.log("Game Over condition NOT met.");
     }
+
+    console.log("After: gameOver =", this.gameOver, "Remaining coins:", this.coins.countActive(true));
 }
 
 
