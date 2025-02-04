@@ -16,6 +16,8 @@ class CoinCatcher extends Phaser.Scene {
     }
 
     create() {
+        this.add.image(400, 300, 'coin');
+        this.load.audio("bubbleSound", 'assets/bubble.mp3', 1);
         // Background and other setup
         this.cameras.main.setBackgroundColor('#FFFF00');
         
