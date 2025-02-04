@@ -16,8 +16,6 @@ class CoinCatcher extends Phaser.Scene {
     }
 
     create() {
-       // this.add.image(400, 300, 'coin');
-        this.load.audio("bubbleSound", 'assets/bubble.mp3', 1);
         // Background and other setup
         this.cameras.main.setBackgroundColor('#FFFF00');
         
@@ -88,7 +86,6 @@ class CoinCatcher extends Phaser.Scene {
                 this.updateFillLevel();
             }
         });
-        this.currentFillHeight = 0;
 
         // Start coin spawning
         this.startCoinSpawning();
@@ -101,6 +98,7 @@ class CoinCatcher extends Phaser.Scene {
             loop: true
         });
 
+
         // Add collision detection for coin collection
         this.physics.add.overlap(this.cup, this.coins, this.collectCoin, null, this);
 
@@ -111,9 +109,6 @@ class CoinCatcher extends Phaser.Scene {
     }
 
     update() {
-        console.log("Cup" , this.cup.x, this.cup.y);
-        this.cup.body.x = this.cup.x;
-        this.cup.body.y = this.cup.y;
         // Ensure the spawn continues if not already happening
         if (!this.gameOver && !this.currentSpawnTimer) {
             this.startCoinSpawning();
@@ -146,7 +141,6 @@ class CoinCatcher extends Phaser.Scene {
             coin.setVelocityX(Phaser.Math.Between(-50, 50));
             coin.setCollideWorldBounds(true);
             coin.setGravityY(200);
-          
             this.sound.play('bubbleSound', { volume: 0.5, duration: 0.3 });
         }
     }
@@ -184,7 +178,6 @@ class CoinCatcher extends Phaser.Scene {
             }
         });
     }
-
 
     coinHitFloor(floor, coin) {
         if (!this.gameOver) {
