@@ -151,7 +151,7 @@ class CoinCatcher extends Phaser.Scene {
         }
     }
 
-    collectCoin(cup, coin) {
+    /*collectCoin(cup, coin) {
         // Handle coin collection
         coin.body.checkCollision.none = true;
         this.tweens.add({
@@ -183,7 +183,38 @@ class CoinCatcher extends Phaser.Scene {
                 this.updateFillLevel();
             }
         });
-    }
+    }*/
+
+    collectCoin(cup, coin) {
+    if (!coin.active) return; // Prevent multiple detections
+
+    // Disable coin physics and hide it
+    coin.body.setVelocity(0, 0);
+    coin.disableBody(true, true);
+
+    // Animate the coin moving into the cup
+    this.tweens.add({
+        targets: coin,
+        x: cup.x,
+        y: cup.y + 35, // Adjust to match cup's real position
+        alpha: 0,
+        scale: 0.2,
+        duration: 200,
+        ease: 'Quad.easeOut',
+        onComplete: () => {
+            coin.destroy();
+        }
+    });
+
+    // Play sound and update score
+    this.sound.play('coinSound');
+    this.score++;
+    this.scoreText.setText('Coins: ' + this.score);
+
+    // Update cup fill level animation
+    this.updateFillLevel();
+}
+
 
     coinHitFloor(floor, coin) {
         if (!this.gameOver) {
