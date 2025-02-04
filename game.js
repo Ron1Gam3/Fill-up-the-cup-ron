@@ -88,6 +88,7 @@ class CoinCatcher extends Phaser.Scene {
                 this.updateFillLevel();
             }
         });
+        this.currentFillHeight = 0;
 
         // Start coin spawning
         this.startCoinSpawning();
@@ -142,7 +143,8 @@ class CoinCatcher extends Phaser.Scene {
             coin.setVelocityX(Phaser.Math.Between(-50, 50));
             coin.setCollideWorldBounds(true);
             coin.setGravityY(200);
-          //  this.sound.play('bubbleSound', { volume: 0.5, duration: 0.3 });
+          
+            this.sound.play('bubbleSound', { volume: 0.5, duration: 0.3 });
         }
     }
 
