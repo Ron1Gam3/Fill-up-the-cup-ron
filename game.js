@@ -136,9 +136,8 @@ class CoinCatcher extends Phaser.Scene {
             const x = Phaser.Math.Between(100, 700);
             const coin = this.coins.create(x, 0, 'coin');
             this.coinContainer.add(coin);
-            coin.setDisplaySize(20, 20);
-            coin.body.setSize(15, 15);
-            coin.body.setOffset(2, 2);
+            coin.setScale(0.5);
+            coin.setCircle(10);
             coin.setBounce(0.2);
             coin.setVelocityX(Phaser.Math.Between(-50, 50));
             coin.setCollideWorldBounds(true);
