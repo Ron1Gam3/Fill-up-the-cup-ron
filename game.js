@@ -165,8 +165,8 @@ class CoinCatcher extends Phaser.Scene {
     spawnCoin() {
     if (!this.gameOver) {
         const x = Phaser.Math.Between(100, 700);
+        console.log("x" ,x);
         const coin = this.coins.create(x, 0, 'coin');
-
         // Ensure the coin is properly added to both containers
         this.coinContainer.add(coin);
 
