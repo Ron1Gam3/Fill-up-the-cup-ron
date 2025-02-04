@@ -109,8 +109,8 @@ class CoinCatcher extends Phaser.Scene {
     update() {
         this.cup.body.x = this.cup.x;
         this.cup.body.y = this.cup.y;
-        hitbox.x = this.cup.x;
-        hitbox.y = this.cup.y;
+        this.hitbox.x = this.cup.x;
+        this.hitbox.y = this.cup.y;
         if (!this.gameOver && !this.currentSpawnTimer) {
             this.startCoinSpawning();
         }
