@@ -51,15 +51,8 @@ class CoinCatcher extends Phaser.Scene {
         cupGraphics.x = -400;
         cupGraphics.y = -500;
 
-       /* const hitbox = this.add.rectangle(0, 0, 120, 100, 0x000000, 0);
-        this.cup.add(hitbox);*/
-
-         this.cupHitbox = this.physics.add.sprite(this.cup.x, this.cup.y, null);
-        this.cupHitbox.setSize(120, 100);
-        this.cupHitbox.setOffset(-60, -50);
-        this.cupHitbox.setVisible(false);
-        this.cupHitbox.setImmovable(true);
-
+        const hitbox = this.add.rectangle(0, 0, 120, 100, 0x000000, 0);
+        this.cup.add(hitbox);
 
         this.cup.setInteractive(new Phaser.Geom.Rectangle(-70, -50, 140, 100), Phaser.Geom.Rectangle.Contains);
         this.physics.add.existing(this.cup, true);
@@ -109,10 +102,8 @@ class CoinCatcher extends Phaser.Scene {
         });
 
         // Add collision detection for coin collection
-       //this.physics.add.overlap(this.cup, this.coins, this.collectCoin, null, this);
-        this.physics.add.overlap(this.cupHitbox, this.coins, this.collectCoin, null, this);
+        this.physics.add.overlap(this.cup, this.coins, this.collectCoin, null, this);
 
-        
         // Add invisible floor for missed coins
         this.floor = this.add.rectangle(400, 600, 600, 20, 0x000000).setAlpha(0);
         this.physics.add.existing(this.floor, true);
@@ -121,13 +112,8 @@ class CoinCatcher extends Phaser.Scene {
 
     update() {
         console.log("Cup" , this.cup.x, this.cup.y);
-       // this.cup.body.x = this.cup.x;
-       // this.cup.body.y = this.cup.y;
-         this.cupHitbox.x = this.cup.x;
-        this.cupHitbox.y = this.cup.y;
-
-        console.log("Cup Position:", this.cup.x, this.cup.y);
-        console.log("Hitbox Position:", this.cupHitbox.x, this.cupHitbox.y);
+        this.cup.body.x = this.cup.x;
+        this.cup.body.y = this.cup.y;
         // Ensure the spawn continues if not already happening
         if (!this.gameOver && !this.currentSpawnTimer) {
             this.startCoinSpawning();
