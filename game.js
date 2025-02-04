@@ -167,7 +167,7 @@ class CoinCatcher extends Phaser.Scene {
             }
         });
 
-        this.sound.play('coinSound');
+       // this.sound.play('coinSound');
         this.score++;
         this.scoreText.setText('Coins: ' + this.score);
 
