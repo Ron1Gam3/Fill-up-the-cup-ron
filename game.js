@@ -111,6 +111,8 @@ class CoinCatcher extends Phaser.Scene {
     }
 
     update() {
+        this.cup.body.x = this.cup.x;
+        this.cup.body.y = this.cup.y;
         // Ensure the spawn continues if not already happening
         if (!this.gameOver && !this.currentSpawnTimer) {
             this.startCoinSpawning();
@@ -150,8 +152,7 @@ class CoinCatcher extends Phaser.Scene {
 
     collectCoin(cup, coin) {
         // Handle coin collection
-        // coin.body.enable = false;
-        coin.body.checkCollision.none = true;
+         coin.body.enable = false;
         this.tweens.add({
             targets: coin,
             x: this.cup.x,
@@ -185,11 +186,6 @@ class CoinCatcher extends Phaser.Scene {
 
     coinHitFloor(floor, coin) {
         if (!this.gameOver) {
-                    if (coin.body.checkCollision.none) {
-                        console.log("Collected");
-            // Coin was already collected, so ignore it
-            return;
-        }
             this.gameOver = true;
             coin.destroy();
             if (this.currentSpawnTimer) {
