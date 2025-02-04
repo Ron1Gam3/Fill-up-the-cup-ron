@@ -194,6 +194,7 @@ class CoinCatcher extends Phaser.Scene {
 
     collectCoin(cup, coin) {
         // Handle coin collection
+         coin.collected = true; 
         coin.body.enable = false;
         this.tweens.add({
             targets: coin,
@@ -250,7 +251,7 @@ coinHitFloor(floor, coin) {
     console.log("Before: gameOver =", this.gameOver);
 
     // Only trigger game over if the game isn't already over
-    if (!this.gameOver) {
+    if (!this.gameOver  && !coin.collected) {
         console.log("Setting gameOver to true now!");
         this.gameOver = true;
 
