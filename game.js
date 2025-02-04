@@ -195,7 +195,7 @@ class CoinCatcher extends Phaser.Scene {
 
 
     coinHitFloor(floor, coin) {
-        if (!this.gameOver && this.coins.getChildren().length < this.maxCoins) {
+        if (!this.gameOver && this.score < this.maxCoins) {
             this.gameOver = true;
             coin.destroy();
             if (this.currentSpawnTimer) {
