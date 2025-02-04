@@ -16,9 +16,6 @@ class CoinCatcher extends Phaser.Scene {
     }
 
     create() {
-       // this.add.image(400, 300, 'coin');
-        this.load.audio("bubbleSound", 'assets/bubble.mp3', 1);
-        // Background and other setup
         this.cameras.main.setBackgroundColor('#FFFF00');
         
         const DEPTH_LAYERS = {
@@ -64,7 +61,7 @@ class CoinCatcher extends Phaser.Scene {
         // Add fill level graphics
         this.fillGraphics = this.add.graphics();
         this.fillGraphics.setDepth(DEPTH_LAYERS.FILL);
-        this.currentFillHeight = undefined;
+        this.currentFillHeight = 0;
 
         // Create the coin group
         this.coins = this.physics.add.group({
@@ -88,7 +85,6 @@ class CoinCatcher extends Phaser.Scene {
                 this.updateFillLevel();
             }
         });
-        this.currentFillHeight = 0;
 
         // Start coin spawning
         this.startCoinSpawning();
@@ -111,21 +107,17 @@ class CoinCatcher extends Phaser.Scene {
     }
 
     update() {
-        console.log(this.cup.x, this.cup.y);
         this.cup.body.x = this.cup.x;
         this.cup.body.y = this.cup.y;
-        // Ensure the spawn continues if not already happening
         if (!this.gameOver && !this.currentSpawnTimer) {
             this.startCoinSpawning();
         }
     }
 
     startCoinSpawning() {
-        // Clear any existing spawn timer
         if (this.currentSpawnTimer) {
             this.currentSpawnTimer.remove();
         }
-        // Start coin spawning timer
         this.currentSpawnTimer = this.time.addEvent({
             delay: this.spawnDelay,
             callback: this.spawnCoin,
@@ -151,13 +143,19 @@ class CoinCatcher extends Phaser.Scene {
         }
     }
 
-    /*collectCoin(cup, coin) {
-        // Handle coin collection
-        coin.body.checkCollision.none = true;
+    collectCoin(cup, coin) {
+        console.log('Coin collected!'); // Debug log
+        if (!coin.active) return; // Prevent multiple detections
+
+        // Disable coin physics and hide it
+        coin.body.setVelocity(0, 0);
+        coin.disableBody(true, true);
+
+        // Animate the coin moving into the cup
         this.tweens.add({
             targets: coin,
-            x: this.cup.x,
-            y: this.cup.y + 35,
+            x: cup.x,
+            y: cup.y + 35, // Adjust to match cup's real position
             alpha: 0,
             scale: 0.2,
             duration: 200,
@@ -167,54 +165,14 @@ class CoinCatcher extends Phaser.Scene {
             }
         });
 
+        // Play sound and update score
         this.sound.play('coinSound');
         this.score++;
         this.scoreText.setText('Coins: ' + this.score);
 
-        // Update fill level animation
-        const maxFillHeight = 100;
-        const targetFillHeight = (this.score / this.maxCoins) * maxFillHeight;
-        this.tweens.add({
-            targets: this,
-            currentFillHeight: Math.min(targetFillHeight, maxFillHeight),
-            duration: 200,
-            ease: 'Quad.easeOut',
-            onUpdate: () => {
-                this.updateFillLevel();
-            }
-        });
-    }*/
-
-    collectCoin(cup, coin) {
-    if (!coin.active) return; // Prevent multiple detections
-
-    // Disable coin physics and hide it
-    coin.body.setVelocity(0, 0);
-    coin.disableBody(true, true);
-
-    // Animate the coin moving into the cup
-    this.tweens.add({
-        targets: coin,
-        x: cup.x,
-        y: cup.y + 35, // Adjust to match cup's real position
-        alpha: 0,
-        scale: 0.2,
-        duration: 200,
-        ease: 'Quad.easeOut',
-        onComplete: () => {
-            coin.destroy();
-        }
-    });
-
-    // Play sound and update score
-    this.sound.play('coinSound');
-    this.score++;
-    this.scoreText.setText('Coins: ' + this.score);
-
-    // Update cup fill level animation
-    this.updateFillLevel();
-}
-
+        // Update cup fill level animation
+        this.updateFillLevel();
+    }
 
     coinHitFloor(floor, coin) {
         if (!this.gameOver) {
