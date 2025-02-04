@@ -145,7 +145,7 @@ class CoinCatcher extends Phaser.Scene {
         });
     }
 
-    spawnCoin() {
+   /* spawnCoin() {
         if (!this.gameOver) {
             const x = Phaser.Math.Between(100, 700);
             const coin = this.coins.create(x, 0, 'coin');
@@ -160,8 +160,37 @@ class CoinCatcher extends Phaser.Scene {
           
             this.sound.play('bubbleSound', { volume: 0.5, duration: 0.3 });
         }
-            console.log("Spawned coin at", coin.x, coin.y, "Total Coins:", this.coins.countActive(true));
+    }*/
+
+    spawnCoin() {
+    if (!this.gameOver) {
+        const x = Phaser.Math.Between(100, 700);
+        const coin = this.coins.create(x, 0, 'coin');
+
+        // Ensure the coin is properly added to both containers
+        this.coinContainer.add(coin);
+
+        // Proper physics settings
+        coin.setDisplaySize(20, 20);
+        coin.body.setSize(15, 15);
+        coin.body.setOffset(2, 2);
+        coin.setBounce(0);  // No bounce to avoid multiple floor collisions
+        coin.setVelocityX(Phaser.Math.Between(-50, 50));
+        coin.setCollideWorldBounds(true);
+        coin.setGravityY(100);  // Reduced gravity for better control
+
+        // Prevent multiple collisions by checking if the collider already exists
+        if (!coin.body.collider) {
+            coin.body.collider = this.physics.add.collider(this.floor, coin, this.coinHitFloor, null, this);
+        }
+
+        // Play sound
+        this.sound.play('bubbleSound', { volume: 0.5, duration: 0.3 });
+
+        console.log("Spawned coin:", coin, "Total coins:", this.coins.countActive(true));
     }
+}
+
 
     collectCoin(cup, coin) {
         // Handle coin collection
@@ -217,35 +246,23 @@ class CoinCatcher extends Phaser.Scene {
 coinHitFloor(floor, coin) {
     console.log("coinHitFloor triggered! Coin count:", this.coins.countActive(true), "Max coins:", this.maxCoins);
 
-    // Debugging: Check if game is over already
-    console.log("Before: gameOver =", this.gameOver);
-
     if (!this.gameOver && this.coins.countActive(true) < this.maxCoins) {
-        console.log("Setting gameOver to true now!");
+        console.log("Destroying coin:", coin);
+        coin.destroy();  // Remove coin
+        this.coins.remove(coin);  // Ensure it's removed from the physics group
+        this.coinContainer.remove(coin); // Ensure it's removed from the container
+    } else {
+        console.log("Game Over condition met.");
         this.gameOver = true;
-
-        coin.destroy();
-        if (this.currentSpawnTimer) {
-            console.log("Removing spawn timer.");
-            this.currentSpawnTimer.remove();
-        }
-
         this.time.removeAllEvents();
-        console.log("All events removed.");
-
         this.coins.clear(true, true);
-        console.log("All coins cleared.");
-
         this.add.text(400, 300, 'Game Over!', {
             fontSize: '64px',
             fill: '#FF0000'
         }).setOrigin(0.5);
-    } else {
-        console.log("Game Over condition NOT met.");
     }
-
-    console.log("After: gameOver =", this.gameOver, "Remaining coins:", this.coins.countActive(true));
 }
+
 
 
     decreaseSpawnDelay() {
