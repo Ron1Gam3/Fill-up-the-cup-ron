@@ -144,8 +144,10 @@ class CoinCatcher extends Phaser.Scene {
     }
 
     collectCoin(cup, coin) {
-        console.log('Coin collected!'); // Debug log
-        if (!coin.active) return; // Prevent multiple detections
+            console.log("Coin Position:", coin.x, coin.y);
+    console.log("Hitbox Position:", this.cup.x, this.cup.y);
+      /*  console.log('Coin collected!'); // Debug log
+        if (!coin.active) return; // Prevent multiple detections*/
 
         // Disable coin physics and hide it
         coin.body.setVelocity(0, 0);
