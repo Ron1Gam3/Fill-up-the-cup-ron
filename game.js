@@ -113,7 +113,12 @@ class CoinCatcher extends Phaser.Scene {
         // Add invisible floor for missed coins
         this.floor = this.add.rectangle(400, 600, 600, 20, 0x000000).setAlpha(0);
         this.physics.add.existing(this.floor, true);
-        this.physics.add.collider(this.floor, this.coins, this.coinHitFloor, null, this);
+      //  this.physics.add.collider(this.floor, this.coins, this.coinHitFloor, null, this);
+        this.physics.add.collider(this.floor, this.coins, (floor, coin) => {
+    if (coin.active) {  // Ensures only active coins trigger the function
+        this.coinHitFloor(floor, coin);
+    }
+}, null, this);
     }
 
     update() {
@@ -192,7 +197,7 @@ class CoinCatcher extends Phaser.Scene {
     }
 
 
-    coinHitFloor(floor, coin) {
+  /*  coinHitFloor(floor, coin) {
         if (!this.gameOver && this.score < this.maxCoins) {
             this.gameOver = true;
             coin.destroy();
@@ -206,7 +211,41 @@ class CoinCatcher extends Phaser.Scene {
                 fill: '#FF0000'
             }).setOrigin(0.5);
         }
+    }*/
+
+    coinHitFloor(floor, coin) {
+    console.log("coinHitFloor triggered");
+
+    // Check game over state before modifying it
+    console.log("Before: gameOver =", this.gameOver, "Coins count =", this.coins.countActive(true));
+
+    if (!this.gameOver && this.coins.countActive(true) < this.maxCoins) {
+        this.gameOver = true;
+        console.log("Game Over condition met! Setting gameOver to true.");
+
+        coin.destroy();
+        if (this.currentSpawnTimer) {
+            console.log("Removing currentSpawnTimer");
+            this.currentSpawnTimer.remove();
+        }
+
+        this.time.removeAllEvents();
+        console.log("All timers removed.");
+
+        this.coins.clear(true, true);
+        console.log("All coins cleared.");
+
+        this.add.text(400, 300, 'Game Over!', {
+            fontSize: '64px',
+            fill: '#FF0000'
+        }).setOrigin(0.5);
+    } else {
+        console.log("Game Over condition NOT met.");
     }
+
+    // Check state after the function runs
+    console.log("After: gameOver =", this.gameOver, "Coins count =", this.coins.countActive(true));
+}
 
     decreaseSpawnDelay() {
         if (!this.gameOver && this.spawnDelay > this.minSpawnDelay) {
