@@ -291,8 +291,8 @@ coinHitFloor(floor, coin) {
         if (!this.gameOver && this.spawnDelay > this.minSpawnDelay) {
             let reductionRate;
 
-            if (this.score >= 400) {
-                const progress = (this.score - 400) / 100;
+            if (this.score >= 20) {
+                const progress = (this.score - 20) / 100;
                 reductionRate = 0.85 - (progress * 0.1);
             } else {
                 reductionRate = 0.98;
