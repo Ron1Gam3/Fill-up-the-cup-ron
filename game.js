@@ -160,6 +160,7 @@ class CoinCatcher extends Phaser.Scene {
           
             this.sound.play('bubbleSound', { volume: 0.5, duration: 0.3 });
         }
+            console.log("Spawned coin at", coin.x, coin.y, "Total Coins:", this.coins.countActive(true));
     }
 
     collectCoin(cup, coin) {
