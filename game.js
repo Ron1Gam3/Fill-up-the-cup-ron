@@ -16,7 +16,7 @@ class CoinCatcher extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(400, 300, 'coin');
+       // this.add.image(400, 300, 'coin');
         this.load.audio("bubbleSound", 'assets/bubble.mp3', 1);
         // Background and other setup
         this.cameras.main.setBackgroundColor('#FFFF00');
@@ -102,9 +102,7 @@ class CoinCatcher extends Phaser.Scene {
         });
 
         // Add collision detection for coin collection
-       // this.physics.add.overlap(this.cup, this.coins, this.collectCoin, null, this);
-        this.physics.add.overlap(this.coins, this.cup, this.collectCoin, null, this);
-
+        this.physics.add.overlap(this.cup, this.coins, this.collectCoin, null, this);
 
         // Add invisible floor for missed coins
         this.floor = this.add.rectangle(400, 600, 600, 20, 0x000000).setAlpha(0);
