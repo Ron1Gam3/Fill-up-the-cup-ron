@@ -213,24 +213,24 @@ class CoinCatcher extends Phaser.Scene {
         }
     }*/
 
-    coinHitFloor(floor, coin) {
-    console.log("coinHitFloor triggered");
+coinHitFloor(floor, coin) {
+    console.log("coinHitFloor triggered! Coin count:", this.coins.countActive(true), "Max coins:", this.maxCoins);
 
-    // Check game over state before modifying it
-    console.log("Before: gameOver =", this.gameOver, "Coins count =", this.coins.countActive(true));
+    // Debugging: Check if game is over already
+    console.log("Before: gameOver =", this.gameOver);
 
     if (!this.gameOver && this.coins.countActive(true) < this.maxCoins) {
+        console.log("Setting gameOver to true now!");
         this.gameOver = true;
-        console.log("Game Over condition met! Setting gameOver to true.");
 
         coin.destroy();
         if (this.currentSpawnTimer) {
-            console.log("Removing currentSpawnTimer");
+            console.log("Removing spawn timer.");
             this.currentSpawnTimer.remove();
         }
 
         this.time.removeAllEvents();
-        console.log("All timers removed.");
+        console.log("All events removed.");
 
         this.coins.clear(true, true);
         console.log("All coins cleared.");
@@ -243,9 +243,9 @@ class CoinCatcher extends Phaser.Scene {
         console.log("Game Over condition NOT met.");
     }
 
-    // Check state after the function runs
-    console.log("After: gameOver =", this.gameOver, "Coins count =", this.coins.countActive(true));
+    console.log("After: gameOver =", this.gameOver, "Remaining coins:", this.coins.countActive(true));
 }
+
 
     decreaseSpawnDelay() {
         if (!this.gameOver && this.spawnDelay > this.minSpawnDelay) {
