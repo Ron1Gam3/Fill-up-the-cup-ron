@@ -153,7 +153,7 @@ class CoinCatcher extends Phaser.Scene {
 
     collectCoin(cup, coin) {
         // Handle coin collection
-        coin.body.checkCollision.none = true;
+        coin.body.enable = false;
         this.tweens.add({
             targets: coin,
             x: this.cup.x,
@@ -167,7 +167,7 @@ class CoinCatcher extends Phaser.Scene {
             }
         });
 
-       // this.sound.play('coinSound');
+        this.sound.play('coinSound');
         this.score++;
         this.scoreText.setText('Coins: ' + this.score);
 
@@ -184,15 +184,6 @@ class CoinCatcher extends Phaser.Scene {
             }
         });
     }
-
-    // Play sound and update score
-    this.sound.play('coinSound');
-    this.score++;
-    this.scoreText.setText('Coins: ' + this.score);
-
-    // Update cup fill level animation
-    this.updateFillLevel();
-}
 
 
     coinHitFloor(floor, coin) {
