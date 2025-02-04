@@ -258,26 +258,22 @@ class CoinCatcher extends Phaser.Scene {
     }
 }
 
-const container = document.getElementById('renderDiv');
-const config = {
-    type: Phaser.AUTO,
-    parent: container,
-    scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
-    },
-    width: 800,
-    height: 600,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: {
-                y: 200
-            },
-            debug: false
-        }
-    },
-    scene: CoinCatcher
-};
+// const container = document.getElementById('renderDiv');
+window.onload = function() {
+    const config = {
+        type: Phaser.AUTO,
+        parent: 'renderDiv', // Use the id directly
+        width: 800,
+        height: 600,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 200 },
+                debug: false
+            }
+        },
+        scene: CoinCatcher
+    };
 
-window.phaserGame = new Phaser.Game(config);
+    new Phaser.Game(config);
+};
