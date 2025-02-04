@@ -112,7 +112,6 @@ class CoinCatcher extends Phaser.Scene {
 
     update() {
         console.log("Cup" , this.cup.x, this.cup.y);
-                console.log("Coin" , this.coin.x, this.coin.y);
         this.cup.body.x = this.cup.x;
         this.cup.body.y = this.cup.y;
         // Ensure the spawn continues if not already happening
@@ -152,7 +151,7 @@ class CoinCatcher extends Phaser.Scene {
         }
     }
 
-    /*collectCoin(cup, coin) {
+    collectCoin(cup, coin) {
         // Handle coin collection
         coin.body.checkCollision.none = true;
         this.tweens.add({
@@ -184,28 +183,7 @@ class CoinCatcher extends Phaser.Scene {
                 this.updateFillLevel();
             }
         });
-    }*/
-
-    collectCoin(cup, coin) {
-    if (!coin.active) return; // Prevent multiple detections
-
-    // Disable coin physics and hide it
-    coin.body.setVelocity(0, 0);
-    coin.disableBody(true, true);
-
-    // Animate the coin moving into the cup
-    this.tweens.add({
-        targets: coin,
-        x: cup.x,
-        y: cup.y + 35, // Adjust to match cup's real position
-        alpha: 0,
-        scale: 0.2,
-        duration: 200,
-        ease: 'Quad.easeOut',
-        onComplete: () => {
-            coin.destroy();
-        }
-    });
+    }
 
     // Play sound and update score
     this.sound.play('coinSound');
