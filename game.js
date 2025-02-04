@@ -249,22 +249,29 @@ coinHitFloor(floor, coin) {
     // Debugging: Check if game is over already
     console.log("Before: gameOver =", this.gameOver);
 
-    if (!this.gameOver && this.coins.countActive(true) < this.maxCoins) {
+    // Only trigger game over if the game isn't already over
+    if (!this.gameOver) {
         console.log("Setting gameOver to true now!");
         this.gameOver = true;
 
+        // Destroy the coin that hit the floor
         coin.destroy();
+
+        // Remove the coin spawn timer
         if (this.currentSpawnTimer) {
             console.log("Removing spawn timer.");
             this.currentSpawnTimer.remove();
         }
 
+        // Remove all remaining events
         this.time.removeAllEvents();
         console.log("All events removed.");
 
+        // Clear all active coins
         this.coins.clear(true, true);
         console.log("All coins cleared.");
 
+        // Display Game Over text in the center of the screen
         this.add.text(400, 300, 'Game Over!', {
             fontSize: '64px',
             fill: '#FF0000'
@@ -275,6 +282,7 @@ coinHitFloor(floor, coin) {
 
     console.log("After: gameOver =", this.gameOver, "Remaining coins:", this.coins.countActive(true));
 }
+
 
 
 
