@@ -12,7 +12,7 @@ class CoinCatcher extends Phaser.Scene {
     preload() {
         this.load.image('coin', 'assets/ronlogo.png');
         this.load.audio('coinSound', 'assets/coin.mp3');
-        this.load.audio('bubbleSound', 'assets/bubble.png');
+        this.load.audio('bubbleSound', 'assets/bubble.mp3');
     }
 
     create() {
